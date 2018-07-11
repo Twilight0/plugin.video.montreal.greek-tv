@@ -1,3 +1,6 @@
+[B]2.0.1[/B] - 12-07-2018
+- Revert to client-request for newspaper indexes
+
 2.0.0 - 23-06-2018
 - Rework of modules for dual Python 2/3 compatibility
 - Rework of main menu code

@@ -55,7 +55,7 @@ def _news_index():
     base_link = 'https://issuu.com/greektimes/docs/'
     json_obj = 'https://issuu.com/call/profile_demo/v1/documents/greektimes?offset=0&limit=1000'
 
-    result = requests.get(json_obj).text
+    result = client.request(json_obj)
 
     news_list = json.loads(result)['items']
 
@@ -88,7 +88,7 @@ def _paper_index(link):
 
     base_img_url = 'https://image.isu.pub/'
 
-    html = requests.get(link).text
+    html = client.request(link)
 
     script = client.parseDOM(html, 'script', attrs={'type': 'application/javascript'})[-2]
 
