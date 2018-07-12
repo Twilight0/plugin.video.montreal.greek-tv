@@ -33,3 +33,15 @@ msgstr "Ζωντανά"
 msgctxt "#30005"
 msgid "Podcasts"
 msgstr "Διαδικτυακές ραδιοφωνικές μεταδόσεις"
+
+msgctxt "#30006"
+msgid "Clear function cache"
+msgstr "Εκκαθάριση μνήμης λειτουργιών"
+
+msgctxt "#30007"
+msgid ""
+msgstr ""
+
+msgctxt "#30402"
+msgid "Success"
+msgstr "Επιτυχία"

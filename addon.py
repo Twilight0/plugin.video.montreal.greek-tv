@@ -27,6 +27,7 @@ from tulip.compat import range
 
 action = params.get('action')
 url = params.get('url')
+content = params.get('content_type')
 
 
 def yt():
@@ -180,7 +181,7 @@ def podcasts():
     for i in items:
         i.update({'action': 'play', 'isFolder': 'False'})
 
-    directory.add(items, content='music')
+    directory.add(items, infotype='music', mediatype='music')
 
 
 def main_menu():
@@ -223,7 +224,7 @@ def main_menu():
         }
         ,
         {
-            'title': 'Montreal Greek TV - {0}'.format(control.lang(30005)),
+            'title': 'Radio Centre-Ville - {0}'.format(control.lang(30005)),
             'action': 'audio_addon',
             'icon': 'pod_icon.jpg',
             'fanart': 'pod_fanart.jpg'
@@ -244,11 +245,9 @@ def play_item(path):
 
 if action is None:
 
-    fp = control.infoLabel('Container.FolderPath')
-
-    if 'image' in fp:
+    if content == 'image':
         news_index()
-    elif 'audio' in fp:
+    elif content == 'audio':
         podcasts()
     else:
         main_menu()
@@ -269,13 +268,17 @@ elif action == 'paper_index':
 
     paper_index(url)
 
+elif action == 'podcasts':
+
+    podcasts()
+
 elif action == 'news_addon':
 
     control.execute('ActivateWindow(pictures,"plugin://{0}/?content_type=image",return)'.format(control.addonInfo('id')))
 
 elif action == 'audio_addon':
 
-    control.execute('ActivateWindow(music,"plugin://{0}/?content_type=audio",return)'.format(control.addonInfo('id')))
+    control.execute('ActivateWindow(music,"plugin://{0}/?action=podcasts",return)'.format(control.addonInfo('id')))
 
 elif action == 'cache_clear':
 
