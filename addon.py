@@ -211,7 +211,7 @@ def main_menu():
         }
         ,
         {
-            'title': 'Montreal Greek TV - {0}'.format(control.lang(30001).encode('utf-8')),
+            'title': u'Montreal Greek TV - {0}'.format(control.lang(30001)),
             'action': 'youtube',
             'icon': 'youtube.png'
         }
@@ -224,7 +224,7 @@ def main_menu():
         }
         ,
         {
-            'title': 'Radio Centre-Ville - {0}'.format(control.lang(30005)),
+            'title': u'Radio Centre-Ville - {0}'.format(control.lang(30005)),
             'action': 'audio_addon',
             'icon': 'pod_icon.jpg',
             'fanart': 'pod_fanart.jpg'
