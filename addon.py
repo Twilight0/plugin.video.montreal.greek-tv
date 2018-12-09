@@ -192,6 +192,8 @@ def main_menu():
     livetv_url = client.parseDOM(xml, 'url')[0]
     mgr = client.parseDOM(xml, 'title')[1]
     radio_url = client.parseDOM(xml, 'url')[1]
+    center_ville_url = 'http://mediacast.b2b2c.ca:8010/'
+    broadcasts_url = 'http://s135598769.onlinehome.us/PSA/psa-2018-11-26.mp3'
 
     menu = [
         {
@@ -217,10 +219,19 @@ def main_menu():
         }
         ,
         {
-            'title': control.lang(30002),
-            'action': 'news_addon',
-            'icon': 'newspaper_icon.png',
-            'fanart': 'xronika_fanart.png'
+            'title': u'Radio Centre-Ville - Live',
+            'action': 'play',
+            'url': center_ville_url,
+            'image': 'https://alivegr.net/logos/RADIO_CENTER_VILLE.png',
+            'isFolder': 'False'
+        }
+        ,
+        {
+            'title': control.lang(30007),
+            'action': 'play',
+            'url': broadcasts_url,
+            'icon': 'center_ville.jpg',
+            'isFolder': 'False'
         }
         ,
         {
@@ -228,6 +239,13 @@ def main_menu():
             'action': 'audio_addon',
             'icon': 'pod_icon.jpg',
             'fanart': 'pod_fanart.jpg'
+        }
+        ,
+        {
+            'title': control.lang(30002),
+            'action': 'news_addon',
+            'icon': 'newspaper_icon.png',
+            'fanart': 'xronika_fanart.png'
         }
     ]
 

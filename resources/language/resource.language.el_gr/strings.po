@@ -39,8 +39,8 @@ msgid "Clear function cache"
 msgstr "Εκκαθάριση μνήμης λειτουργιών"
 
 msgctxt "#30007"
-msgid ""
-msgstr ""
+msgid "Public service announcements"
+msgstr "Παροικιακές ανακοινώσεις"
 
 msgctxt "#30402"
 msgid "Success"
