@@ -184,6 +184,15 @@ def podcasts():
     directory.add(items, infotype='music', mediatype='music')
 
 
+def broadcasts():
+
+    xml = client.request('http://greektimes.ca/feed/psa/')
+
+    url = client.parseDOM(xml, 'enclosure', ret='url')[0]
+
+    return url
+
+
 def main_menu():
 
     xml = client.request('http://s135598769.onlinehome.us/mgtv.xml')
@@ -193,7 +202,6 @@ def main_menu():
     mgr = client.parseDOM(xml, 'title')[1]
     radio_url = client.parseDOM(xml, 'url')[1]
     center_ville_url = 'http://mediacast.b2b2c.ca:8010/'
-    broadcasts_url = 'http://s135598769.onlinehome.us/PSA/psa-2018-11-26.mp3'
 
     menu = [
         {
@@ -229,7 +237,7 @@ def main_menu():
         {
             'title': control.lang(30007),
             'action': 'play',
-            'url': broadcasts_url,
+            'url': 'broadcasts',
             'icon': 'center_ville.jpg',
             'isFolder': 'False'
         }
@@ -257,6 +265,9 @@ def main_menu():
 
 
 def play_item(path):
+
+    if path == 'broadcasts':
+        path = broadcasts()
 
     directory.resolve(path)
 
