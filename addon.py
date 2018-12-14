@@ -18,301 +18,66 @@
         along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-import json, re
-from base64 import b64decode
-from tulip import control, youtube, cache, directory, client
-from tulip.init import syshandle, params
-from tulip.compat import range
-
+from tulip.init import params
 
 action = params.get('action')
 url = params.get('url')
 content = params.get('content_type')
 
 
-def yt():
-
-    # Please do not copy these keys, instead create your own:
-    # http://forum.kodi.tv/showthread.php?tid=267160&pid=2299960#pid2299960
-
-    key = 'QUl6YVN5QThrMU95TEdmMDNIQk5sMGJ5RDUxMWpyOWNGV28yR1I0'
-    cid = 'UCFr8nqHDhA_fLQq2lEK3Mlw'
-
-    return youtube.youtube(key=b64decode(key)).videos(cid)
-
-
-def vod():
-
-    video_list = cache.get(yt, 12)
-
-    for v in video_list:
-        v.update({'action': 'play', 'isFolder': 'False'})
-
-    directory.add(video_list)
-
-
-def _news_index():
-
-    base_link = 'https://issuu.com/greektimes/docs/'
-    json_obj = 'https://issuu.com/call/profile_demo/v1/documents/greektimes?offset=0&limit=1000'
-
-    result = client.request(json_obj)
-
-    news_list = json.loads(result)['items']
-
-    menu = []
-
-    for n in news_list:
-
-        title = n['title']
-        image = n['coverUrl']
-        url = base_link + n['uri']
-
-        data = {'title': title, 'image': image, 'url': url, 'action': 'paper_index'}
-
-        menu.append(data)
-
-    return menu
-
-
-def news_index():
-
-    menu = cache.get(_news_index, 12)
-
-    if menu is None:
-        return
-
-    directory.add(menu, content='images')
-
-
-def _paper_index(link):
-
-    base_img_url = 'https://image.isu.pub/'
-
-    html = client.request(link)
-
-    script = client.parseDOM(html, 'script', attrs={'type': 'application/javascript'})[-2]
-
-    data = json.loads(script.partition(' = ')[2].rstrip(';'))
-    document = data['document']
-    total_pages = int(document['pageCount'])
-
-    menu = []
-
-    for page in list(range(1, total_pages + 1)):
-
-        title = document['title'] + ' - ' + control.lang(30003) + ' ' + str(page)
-        page_img = base_img_url + document['id'] + '/jpg/page_{0}_thumb_large.jpg'.format(str(page))
-        page_url = base_img_url + document['id'] + '/jpg/page_{0}.jpg'.format(str(page))
-
-        data = {'title': title, 'image': page_img, 'url': page_url}
-
-        menu.append(data)
-
-    return menu
-
-
-def paper_index(link):
-
-    menu = []
-
-    items = cache.get(_paper_index, 12, link)
-
-    if items is None:
-        return
-
-    for i in items:
-        li = control.item(label=i['title'])
-        li.setArt(
-            {
-                'poster': i['image'], 'thumb': i['image'],
-                'fanart': control.join(control.addonPath, 'resources', 'media', 'newspaper_fanart.png')
-            }
-        )
-        li.setInfo('image', {'title': i['title'], 'picturepath': i['url']})
-        url = i['url']
-        menu.append((url, li, False))
-
-    control.content(syshandle, 'images')
-    control.addItems(syshandle, menu)
-    control.directory(syshandle)
-
-
-def _podcasts():
-
-    menu = []
-
-    feed_url = 'http://greektimes.ca/feed/podcast/'
-
-    xml = client.request(feed_url)
-
-    items = client.parseDOM(xml, 'item')
-
-    for item in items:
-
-        title = client.parseDOM(item, 'title')[0]
-        uri = client.parseDOM(item, 'enclosure', attrs={'type': 'audio/mpeg'}, ret='url')[0]
-        fanart = client.parseDOM(item, 'enclosure', attrs={'type': 'image/(?:jpeg|png)'}, ret='url')[0]
-        image = client.parseDOM(item, 'img', attrs={'class': '.*?wp-image-\d{1,4}.*?'}, ret='srcset')[0]
-        img_urls = image.split(',')
-        image = [
-            i.rpartition(' ')[0].strip() for i in img_urls if int(i[-5:-1]) == min([int(v[-5:-1]) for v in img_urls])
-        ][0]
-        comment = client.parseDOM(item, 'description')[0]
-        year = int(re.search('(\d{4})', client.parseDOM(item, 'pubDate')[0]).group(1))
-
-        data = {
-            'title': title, 'url': uri, 'image': image, 'fanart': fanart, 'comment': comment, 'lyrics': comment,
-            'year': year
-        }
-
-        menu.append(data)
-
-    return menu
-
-
-def podcasts():
-
-    items = cache.get(_podcasts, 6)
-
-    if items is None:
-        return
-
-    for i in items:
-        i.update({'action': 'play', 'isFolder': 'False'})
-
-    directory.add(items, infotype='music', mediatype='music')
-
-
-def broadcasts():
-
-    xml = client.request('http://greektimes.ca/feed/psa/')
-
-    url = client.parseDOM(xml, 'enclosure', ret='url')[0]
-
-    return url
-
-
-def main_menu():
-
-    xml = client.request('http://s135598769.onlinehome.us/mgtv.xml')
-
-    mgtv = client.parseDOM(xml, 'title')[0]
-    livetv_url = client.parseDOM(xml, 'url')[0]
-    mgr = client.parseDOM(xml, 'title')[1]
-    radio_url = client.parseDOM(xml, 'url')[1]
-    center_ville_url = 'http://mediacast.b2b2c.ca:8010/'
-
-    menu = [
-        {
-            'title': mgtv.replace('Live', control.lang(30004)),
-            'action': 'play',
-            'url': livetv_url,
-            'icon': 'livetv.png',
-            'isFolder': 'False'
-        }
-        ,
-        {
-            'title': mgr.replace('Live', control.lang(30004)),
-            'action': 'play',
-            'url': radio_url,
-            'icon': 'radio.png',
-            'isFolder': 'False'
-        }
-        ,
-        {
-            'title': u'Montreal Greek TV - {0}'.format(control.lang(30001)),
-            'action': 'youtube',
-            'icon': 'youtube.png'
-        }
-        ,
-        {
-            'title': u'Radio Centre-Ville - Live',
-            'action': 'play',
-            'url': center_ville_url,
-            'image': 'https://alivegr.net/logos/RADIO_CENTER_VILLE.png',
-            'isFolder': 'False'
-        }
-        ,
-        {
-            'title': control.lang(30007),
-            'action': 'play',
-            'url': 'broadcasts',
-            'icon': 'center_ville.jpg',
-            'isFolder': 'False'
-        }
-        ,
-        {
-            'title': u'Radio Centre-Ville - {0}'.format(control.lang(30005)),
-            'action': 'audio_addon',
-            'icon': 'pod_icon.jpg',
-            'fanart': 'pod_fanart.jpg'
-        }
-        ,
-        {
-            'title': control.lang(30002),
-            'action': 'news_addon',
-            'icon': 'newspaper_icon.png',
-            'fanart': 'xronika_fanart.png'
-        }
-    ]
-
-    for item in menu:
-        cache_clear = {'title': 30006, 'query': {'action': 'cache_clear'}}
-        item.update({'cm': [cache_clear]})
-
-    directory.add(menu)
-
-
-def play_item(path):
-
-    if path == 'broadcasts':
-        path = broadcasts()
-
-    directory.resolve(path)
-
-
 if action is None:
 
     if content == 'image':
+        from resources.lib.mgtv import news_index
         news_index()
     elif content == 'audio':
+        from resources.lib.mgtv import podcasts
         podcasts()
     else:
+        from resources.lib.mgtv import main_menu
         main_menu()
 
 elif action == 'play':
 
+    from resources.lib.mgtv import play_item
     play_item(url)
 
 elif action == 'youtube':
 
+    from resources.lib.mgtv import vod
     vod()
 
 elif action == 'news_index':
 
+    from resources.lib.mgtv import news_index
     news_index()
 
 elif action == 'paper_index':
 
+    from resources.lib.mgtv import paper_index
     paper_index(url)
 
 elif action == 'podcasts':
 
+    from resources.lib.mgtv import podcasts
     podcasts()
 
 elif action == 'news_addon':
 
+    from tulip import control
     control.execute('ActivateWindow(pictures,"plugin://{0}/?content_type=image",return)'.format(control.addonInfo('id')))
 
 elif action == 'audio_addon':
 
+    from tulip import control
     control.execute('ActivateWindow(music,"plugin://{0}/?action=podcasts",return)'.format(control.addonInfo('id')))
 
 elif action == 'cache_clear':
 
+    from tulip import cache
     cache.clear(withyes=False)
 
 else:
+
     import sys
     sys.exit()
