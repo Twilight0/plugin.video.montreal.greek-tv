@@ -195,7 +195,7 @@ def main_menu():
     mgtv = client.parseDOM(xml, 'title')[0]
     livetv_url = client.parseDOM(xml, 'url')[0]
     mgr = client.parseDOM(xml, 'title')[1]
-    radio_url = client.parseDOM(xml, 'url')[1]
+    radio_url = 'http://94.130.180.175:8000/live.m3u'
     center_ville_url = 'http://mediacast.b2b2c.ca:8010/'
 
     menu = [
