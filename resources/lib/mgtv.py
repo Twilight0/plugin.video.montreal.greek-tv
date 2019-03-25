@@ -43,6 +43,8 @@ def vod():
     for v in video_list:
         v.update({'action': 'play', 'isFolder': 'False'})
 
+    video_list.sort(key=lambda i: i['dateadded'], reverse=True)
+
     directory.add(video_list)
 
 
