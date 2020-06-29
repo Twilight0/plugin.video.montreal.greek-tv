@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="plugin.video.montreal.greek-tv" name="Montreal Greek TV" version="2.1.4" provider-name="Greektimes.ca, Twilight0">
+<addon id="plugin.video.montreal.greek-tv" name="Montreal Greek TV" version="2.1.5" provider-name="Greektimes.ca, Twilight0">
     <requires>
         <import addon="xbmc.python" version="2.24.0"/>
         <import addon="script.module.tulip" version="2.3.4"/>
@@ -16,7 +16,10 @@
         <language>en el</language>
         <license>GNU General Public License, v3</license>
         <size>633158</size>
-        <news>[B]2.1.4[/B] - 25-03-2019
+        <news>[B]2.1.5[/B] - 29-06-2020
+- Updated youtube api key
+
+[B]2.1.4[/B] - 25-03-2019
 - Bumped dependencies
 - Added sort method for youtube videos
 

@@ -28,9 +28,9 @@ from tulip.init import syshandle
 def yt():
 
     # Please do not copy these keys, instead create your own:
-    # http://forum.kodi.tv/showthread.php?tid=267160&pid=2299960#pid2299960
+    # https://ytaddon.page.link/keys
 
-    key = 'QUl6YVN5QThrMU95TEdmMDNIQk5sMGJ5RDUxMWpyOWNGV28yR1I0'
+    key = 'QUl6YVN5RF9LV3pyYUJQVEl1QklrWDBUV3Fkak5zLVNFWENjbzZn'
     cid = 'UCFr8nqHDhA_fLQq2lEK3Mlw'
 
     return youtube.youtube(key=b64decode(key)).videos(cid)

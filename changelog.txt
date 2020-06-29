@@ -1,3 +1,6 @@
+[B]2.1.5[/B] - 29-06-2020
+- Updated youtube api key
+
 [B]2.1.4[/B] - 25-03-2019
 - Bumped dependencies
 - Added sort method for youtube videos
