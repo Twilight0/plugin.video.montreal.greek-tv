@@ -30,7 +30,7 @@ def yt():
     # Please do not copy these keys, instead create your own:
     # https://ytaddon.page.link/keys
 
-    key = 'QUl6YVN5RF9LV3pyYUJQVEl1QklrWDBUV3Fkak5zLVNFWENjbzZn'
+    key = 'QUl6YVN5Q3JHU1c3RHB3aWpkYkxMOWh5WU54VHFfRWR1b0M3b2w4'
     cid = 'UCFr8nqHDhA_fLQq2lEK3Mlw'
 
     return youtube.youtube(key=b64decode(key)).videos(cid)

@@ -1,3 +1,6 @@
+[B]2.1.6[/B] - 29-11-2020
+- Updated youtube api key
+
 [B]2.1.5[/B] - 29-06-2020
 - Updated youtube api key
 
