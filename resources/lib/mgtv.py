@@ -25,7 +25,7 @@ from tulip.compat import range
 from tulip.init import syshandle
 
 
-def yt():
+def vod():
 
     # Please do not copy these keys, instead create your own:
     # https://ytaddon.page.link/keys
@@ -33,12 +33,7 @@ def yt():
     key = 'QUl6YVN5Q3JHU1c3RHB3aWpkYkxMOWh5WU54VHFfRWR1b0M3b2w4'
     cid = 'UCFr8nqHDhA_fLQq2lEK3Mlw'
 
-    return youtube.youtube(key=b64decode(key)).videos(cid)
-
-
-def vod():
-
-    video_list = cache.get(yt, 12)
+    video_list = cache.get(youtube.youtube(key=b64decode(key)).videos, 12, cid)
 
     for v in video_list:
         v.update({'action': 'play', 'isFolder': 'False'})
