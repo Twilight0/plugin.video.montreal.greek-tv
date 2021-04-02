@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="plugin.video.montreal.greek-tv" name="Montreal Greek TV" version="2.2.1" provider-name="Greektimes.ca, Twilight0">
+<addon id="plugin.video.montreal.greek-tv" name="Montreal Greek TV" version="2.3.0" provider-name="Greektimes.ca, Twilight0">
     <requires>
         <import addon="xbmc.addon" version="16.1.000"/>
-        <import addon="script.module.tulip" version="2.8.9"/>
+        <import addon="script.module.tulip" version="2.8.17"/>
     </requires>
     <extension point="xbmc.python.pluginsource" library="addon.py">
         <provides>video image audio</provides>
@@ -16,7 +16,10 @@
         <language>en el</language>
         <license>GNU General Public License, v3</license>
         <size>633158</size>
-        <news>[B]2.2.X[/B] - 18-03-2021
+        <news>[B]2.3.X[/B] - 02-04-2021
+- Change cache method
+
+[B]2.2.X[/B] - 18-03-2021
 - Some code tweaks
 
 [B]2.1.6[/B] - 29-11-2020

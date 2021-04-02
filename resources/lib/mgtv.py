@@ -24,16 +24,25 @@ from tulip import control, youtube, cache, directory, client
 from tulip.compat import range
 from tulip.init import syshandle
 
+# Please do not copy these keys, instead create your own:
+# https://ytaddon.page.link/keys
+key = 'QUl6YVN5Q3JHU1c3RHB3aWpkYkxMOWh5WU54VHFfRWR1b0M3b2w4'
+cid = 'UCFr8nqHDhA_fLQq2lEK3Mlw'
+cache_function = cache.FunctionCache().cache_function
+
+
+@cache_function(720)
+def yt_videos():
+
+    return youtube.youtube(key=b64decode(key)).videos(cid)
+
 
 def vod():
 
-    # Please do not copy these keys, instead create your own:
-    # https://ytaddon.page.link/keys
+    video_list = yt_videos()
 
-    key = 'QUl6YVN5Q3JHU1c3RHB3aWpkYkxMOWh5WU54VHFfRWR1b0M3b2w4'
-    cid = 'UCFr8nqHDhA_fLQq2lEK3Mlw'
-
-    video_list = cache.get(youtube.youtube(key=b64decode(key)).videos, 12, cid)
+    if not video_list:
+        return
 
     for v in video_list:
         v.update({'action': 'play', 'isFolder': 'False'})
@@ -43,6 +52,7 @@ def vod():
     directory.add(video_list)
 
 
+@cache_function(720)
 def _news_index():
 
     base_link = 'https://issuu.com/greektimes/docs/'
@@ -69,7 +79,7 @@ def _news_index():
 
 def news_index():
 
-    menu = cache.get(_news_index, 12)
+    menu = _news_index()
 
     if menu is None:
         return
@@ -77,6 +87,7 @@ def news_index():
     directory.add(menu, content='images')
 
 
+@cache_function(720)
 def _paper_index(link):
 
     base_img_url = 'https://image.isu.pub/'
@@ -108,7 +119,7 @@ def paper_index(link):
 
     menu = []
 
-    items = cache.get(_paper_index, 12, link)
+    items = _paper_index(link)
 
     if items is None:
         return
@@ -130,6 +141,7 @@ def paper_index(link):
     control.directory(syshandle)
 
 
+@cache_function(360)
 def _podcasts():
 
     menu = []
@@ -151,7 +163,7 @@ def _podcasts():
             i.rpartition(' ')[0].strip() for i in img_urls if int(i[-5:-1]) == min([int(v[-5:-1]) for v in img_urls])
         ][0]
         comment = client.parseDOM(item, 'description')[0]
-        year = int(re.search('(\d{4})', client.parseDOM(item, 'pubDate')[0]).group(1))
+        year = int(re.search(r'(\d{4})', client.parseDOM(item, 'pubDate')[0]).group(1))
 
         data = {
             'title': title, 'url': uri, 'image': image, 'fanart': fanart, 'comment': comment, 'lyrics': comment,
@@ -165,7 +177,7 @@ def _podcasts():
 
 def podcasts():
 
-    items = cache.get(_podcasts, 6)
+    items = _podcasts()
 
     if items is None:
         return

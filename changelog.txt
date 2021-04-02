@@ -1,3 +1,6 @@
+[B]2.3.X[/B] - 02-04-2021
+- Change cache method
+
 [B]2.2.X[/B] - 18-03-2021
 - Some code tweaks
 

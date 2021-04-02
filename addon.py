@@ -75,7 +75,7 @@ elif action == 'audio_addon':
 elif action == 'cache_clear':
 
     from tulip import cache
-    cache.clear(withyes=False)
+    cache.FunctionCache().reset_cache(notify=True)
 
 else:
 
