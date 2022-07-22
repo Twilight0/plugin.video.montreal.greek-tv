@@ -42,6 +42,18 @@ msgctxt "#30007"
 msgid "Public service announcements"
 msgstr ""
 
+msgctxt "#30008"
+msgid "No bookmarks were found"
+msgstr ""
+
+msgctxt "#30009"
+msgid "Add as bookmark"
+msgstr ""
+
+msgctxt "#30010"
+msgid "Remove from bookmarks"
+msgstr ""
+
 msgctxt "#30402"
 msgid "Success"
 msgstr ""

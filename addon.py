@@ -18,6 +18,7 @@
         along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
+from tulip import bookmarks as bms
 from tulip.init import params
 
 action = params.get('action')
@@ -57,10 +58,13 @@ elif action == 'paper_index':
     from resources.lib.mgtv import paper_index
     paper_index(url)
 
-elif action == 'podcasts':
+elif action == 'addBookmark':
 
-    from resources.lib.mgtv import podcasts
-    podcasts()
+    bms.add(url)
+
+elif action == 'deleteBookmark':
+
+    bms.delete(url)
 
 elif action == 'news_addon':
 

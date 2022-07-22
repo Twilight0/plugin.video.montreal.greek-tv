@@ -42,6 +42,18 @@ msgctxt "#30007"
 msgid "Public service announcements"
 msgstr "Παροικιακές ανακοινώσεις"
 
+msgctxt "#30008"
+msgid "No bookmarks were found"
+msgstr "Δεν βρέθηκαν σελιδοδείκτες"
+
+msgctxt "#30009"
+msgid "Add as bookmark"
+msgstr "Προσθήκη ως σελιδοδείκτη"
+
+msgctxt "#30010"
+msgid "Remove from bookmarks"
+msgstr "Αφαίρεση από τους σελιδοδείκτες"
+
 msgctxt "#30402"
 msgid "Success"
 msgstr "Επιτυχία"
