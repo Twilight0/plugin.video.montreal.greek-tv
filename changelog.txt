@@ -1,5 +1,6 @@
 [B]3.0.X[/B] - 22-07-2022
 - Update live urls
+- Add radio fanart
 - Remove non working items
 
 [B]2.3.X[/B] - 02-04-2021

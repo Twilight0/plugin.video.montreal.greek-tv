@@ -21,16 +21,17 @@
 from tulip import control, directory
 
 
-def main_menu():
+LIVETV_URL = 'http://live.greektv.ca/hls1/greektv.m3u8'
+RADIO_URL = 'http://live.greekradio.ca:8000/live'
 
-    livetv_url = 'http://live.greektv.ca/hls1/greektv.m3u8'
-    radio_url = 'http://live.greekradio.ca:8000/live'
+
+def main_menu():
 
     menu = [
         {
             'title': 'Montreal Greek TV - Live'.replace('Live', control.lang(30004)),
             'action': 'play',
-            'url': livetv_url,
+            'url': LIVETV_URL,
             'icon': 'livetv.png',
             'isFolder': 'False'
         }
@@ -38,8 +39,9 @@ def main_menu():
         {
             'title': 'Montreal Greek Radio - Live'.replace('Live', control.lang(30004)),
             'action': 'play',
-            'url': radio_url,
+            'url': RADIO_URL,
             'icon': 'radio.png',
+            'fanart': control.addonmedia('radio_fanart.jpg'),
             'isFolder': 'False'
         }
     ]
@@ -47,6 +49,16 @@ def main_menu():
     directory.add(menu)
 
 
-def play_item(path):
+def play_item(path, resolved_mode=True):
 
-    directory.resolve(path)
+    if resolved_mode:
+        directory.resolve(path)
+    else:
+        directory.resolve(
+            path, meta={
+                'title': 'Montreal Greek Radio - Live'.replace('Live', control.lang(30004))
+            }, icon={
+                'icon': control.addonmedia('radio.png'), 'thumb': control.addonmedia('radio.png'),
+                'fanart': control.addonmedia('radio_fanart.jpg')
+            }, resolved_mode=resolved_mode
+        )
