@@ -18,21 +18,28 @@
         along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from tulip.init import params
+import sys
+from tulip.compat import parse_qsl
+from tulip.url_dispatcher import urldispatcher
 from resources.lib import mgtv
 
-action = params.get('action')
-url = params.get('url')
-content = params.get('content_type')
 
+def main(argv=None):
 
-if action is None:
+    if sys.argv: argv = sys.argv
 
+    params = dict(parse_qsl(argv[2][1:]))
+    content = params.get('content_type')
     if content == 'audio':
-        mgtv.play_item(mgtv.RADIO_URL, resolved_mode=False)
+        action = 'play'
+        params = {'action': 'play', 'url': mgtv.RADIO_URL, 'resolved_mode': False}
     else:
-        mgtv.main_menu()
+        action = params.get('action', 'root')
+        if action == 'play':
+            params['resolved_mode'] = True
+    urldispatcher.dispatch(action, params)
 
-elif action == 'play':
 
-    mgtv.play_item(url)
+if __name__ == '__main__':
+
+    sys.exit(main())

@@ -19,20 +19,22 @@
 """
 
 from tulip import control, directory
+from tulip.url_dispatcher import urldispatcher
 
 
 LIVETV_URL = 'http://live.greektv.ca/hls1/greektv.m3u8'
 RADIO_URL = 'http://live.greekradio.ca:8000/live'
 
 
-def main_menu():
+@urldispatcher.register('root')
+def root():
 
     menu = [
         {
             'title': 'Montreal Greek TV - Live'.replace('Live', control.lang(30004)),
             'action': 'play',
             'url': LIVETV_URL,
-            'icon': 'livetv.png',
+            'icon': 'montreal_tv.png',
             'isFolder': 'False'
         }
         ,
@@ -40,8 +42,7 @@ def main_menu():
             'title': 'Montreal Greek Radio - Live'.replace('Live', control.lang(30004)),
             'action': 'play',
             'url': RADIO_URL,
-            'icon': 'radio.png',
-            'fanart': control.addonmedia('radio_fanart.jpg'),
+            'icon': 'montreal_radio.png',
             'isFolder': 'False'
         }
     ]
@@ -49,16 +50,17 @@ def main_menu():
     directory.add(menu)
 
 
-def play_item(path, resolved_mode=True):
+@urldispatcher.register('play', ['url', 'resolved_mode'])
+def play(url, resolved_mode=True):
 
     if resolved_mode:
-        directory.resolve(path)
+        directory.resolve(url)
     else:
         directory.resolve(
-            path, meta={
+            url, meta={
                 'title': 'Montreal Greek Radio - Live'.replace('Live', control.lang(30004))
             }, icon={
-                'icon': control.addonmedia('radio.png'), 'thumb': control.addonmedia('radio.png'),
-                'fanart': control.addonmedia('radio_fanart.jpg')
+                'icon': control.addonmedia('montreal_radio.png'), 'thumb': control.addonmedia('montreal_radio.png'),
+                'fanart': control.addonmedia('montreal_backround.png')
             }, resolved_mode=resolved_mode
         )
